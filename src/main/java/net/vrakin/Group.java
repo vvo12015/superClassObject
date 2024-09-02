@@ -1,14 +1,30 @@
 package net.vrakin;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public class Group {
     private int id;
     private String name;
     private String specialty;
+    private Student[] students;
 
-    public Group(int id, String name, String specialty) {
+    public boolean isDuplicatesStudent() {
+        for (int i = 0; i+1 < students.length; i++) {
+            for (int j = i+1; j < students.length; j++) {
+                if (students[i].equals(students[j])) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public Group(int id, String name, String specialty, Student[] students) {
         this.id = id;
         this.name = name;
         this.specialty = specialty;
+        this.students = students;
     }
 
     public int getId() {
@@ -35,25 +51,34 @@ public class Group {
         this.specialty = specialty;
     }
 
+    public Student[] getStudents() {
+        return students;
+    }
+
+    public void setStudents(Student[] students) {
+        this.students = students;
+    }
+
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Group other = (Group) obj;
-        if (id != other.id)
-            return false;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else return name.equals(other.name);
-        if (specialty == null) {
-            if (other.specialty != null)
-                return false;
-        } else return specialty.equals(other.specialty);
-        return true;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Group group = (Group) o;
+        return id == group.id && Objects.equals(name, group.name) && Objects.equals(specialty, group.specialty) && Objects.deepEquals(students, group.students);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, specialty, Arrays.hashCode(students));
+    }
+
+    @Override
+    public String toString() {
+        return "Group{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", specialty='" + specialty + '\'' +
+                ", students=" + Arrays.toString(students) +
+                '}';
     }
 }

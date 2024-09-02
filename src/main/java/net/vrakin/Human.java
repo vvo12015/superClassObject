@@ -26,21 +26,11 @@ public class Human {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Human other = (Human) obj;
-        if (age != other.age)
-            return false;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else return name.equals(other.name);
-        return true;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Human human = (Human) o;
+        return age == human.age && Objects.equals(name, human.name);
     }
 
     @Override

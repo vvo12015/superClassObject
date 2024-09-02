@@ -2,16 +2,14 @@ package net.vrakin;
 
 import java.util.Objects;
 
-public class Student extends Human{
+public class Student extends Human implements Cloneable{
+
     private int id;
-    private Group group;
     private Float averagePoint;
 
-    public Student(int id, String name, int age,
-                   Group group, Float averagePoint) {
+    public Student(String name, int age, int id, Float averagePoint) {
         super(name, age);
         this.id = id;
-        this.group = group;
         this.averagePoint = averagePoint;
     }
 
@@ -23,14 +21,6 @@ public class Student extends Human{
         this.id = id;
     }
 
-    public Group getGroup() {
-        return group;
-    }
-
-    public void setGroup(Group group) {
-        this.group = group;
-    }
-
     public Float getAveragePoint() {
         return averagePoint;
     }
@@ -39,30 +29,35 @@ public class Student extends Human{
         this.averagePoint = averagePoint;
     }
 
+
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        if (!super.equals(obj)){
-            return false;
-        }
-        Student other = (Student) obj;
-        if (id != other.id)
-            return false;
-        if (!this.group.equals(other.group)) {
-            return false;
-        }
-        if (averagePoint == null) {
-            return other.averagePoint == null;
-        } else return averagePoint.equals(other.averagePoint);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Student student = (Student) o;
+        return id == student.id && Objects.equals(averagePoint, student.averagePoint);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), group, averagePoint);
+        return Objects.hash(super.hashCode(), id, averagePoint);
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", averagePoint=" + averagePoint +
+                '}';
+    }
+
+    @Override
+    public Student clone() {
+        try {
+            return (Student) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }
